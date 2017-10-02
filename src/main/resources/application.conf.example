@@ -1,0 +1,25 @@
+config-backup: {
+
+	# the local git repo to maintain the configuration snapshots
+	backup-dir: ./example-backup-dir
+
+	# the lock file preventing multiple config-backup executions
+	# corrupting the backup-dir
+	lock-file: ./example-backup-dir.lock
+
+	# the maximum number of threads to utilize; zero or below
+	# will utilize one thread per defined environment
+	max-threads: 0
+
+	# a list of the environments whose configuration table data to backup
+	environments: [
+		{
+			name: "logical-environment-name"
+			jdbc-uri: "jdbc:oracle:thin:username/password@host:port:instance"
+		}
+		# {
+		#    name: "another-logical-environment-name"
+		#    jdbc-uri: "..."
+		# }
+	]
+}
