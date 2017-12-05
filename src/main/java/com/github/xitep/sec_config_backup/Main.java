@@ -88,7 +88,7 @@ public class Main {
 		// ~ now, let the work begin
 		cfg.getEnvironments().forEach(e ->
 				cs.submit(() -> {
-					Fetcher fetcher = new JdbcFetcher(e.getJdbcUri());
+					Fetcher fetcher = new JdbcFetcher(e.getJdbcUri(), cfg.createJdbcProps(e));
 					File outputFile = new File(backupDir.getDirectory(), e.getName() + ".xml");
 					return dumpSnapshot(e.getName(), fetcher, outputFile);
 				}));

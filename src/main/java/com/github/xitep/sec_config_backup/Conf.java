@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 // ~ mapped to the application's configuration file; do not rename
@@ -23,12 +24,36 @@ public class Conf {
 	public static class Env {
 		private String name;
 		private String jdbcUri;
+		@Optional private Map<String, Object> jdbcProps;
 	}
 
 	private String backupDir;
 	@Optional String lockFile;
 	@Optional private int maxThreads;
 	private List<Env> environments;
+	@Optional  private Map<String, Object> jdbcProps;
+
+	Properties createJdbcProps(Env env) {
+		Properties props = new Properties();
+		addProps(props, this.jdbcProps);
+		addProps(props, env.jdbcProps);
+		return props;
+	}
+
+	private static void addProps(Properties dst, Map<String, Object> src) {
+		assert dst != null;
+		if (src != null) {
+			for (Map.Entry<String, Object> s : src.entrySet()) {
+				String key = s.getKey();
+				Object val = s.getValue();
+				if (val == null) {
+					dst.remove(key);
+				} else {
+					dst.setProperty(key, val.toString());
+				}
+			}
+		}
+	}
 
 	static Conf load(String [] args) {
 		if (args.length != 1) {

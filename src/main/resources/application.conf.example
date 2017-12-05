@@ -11,11 +11,24 @@ config-backup: {
 	# will utilize one thread per defined environment
 	max-threads: 0
 
+	# global jdbc properties to be applied to jdbc connections of all environments
+	jdbc-props: {
+		"oracle.jdbc.ReadTimeout": "30000"
+		"oracle.net.CONNECT_TIMEOUT": "10000"
+	}
+
 	# a list of the environments whose configuration table data to backup
 	environments: [
 		{
 			name: "logical-environment-name"
 			jdbc-uri: "jdbc:oracle:thin:username/password@host:port:instance"
+
+			# jdbc properties to be applied only to this environment's
+			# jdbc connections. values defined here will override global
+			# jdbc properties defined above - if any.
+			jdbc-props: {
+				"oracle.jdbc.ReadTimeout": "60000"
+			}
 		}
 		# {
 		#    name: "another-logical-environment-name"

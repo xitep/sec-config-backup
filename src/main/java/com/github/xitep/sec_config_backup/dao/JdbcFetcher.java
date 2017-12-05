@@ -10,17 +10,20 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Properties;
 
 public class JdbcFetcher implements Fetcher {
 	private final String jdbcUri;
+	private final Properties jdbcProps;
 
-	public JdbcFetcher(String jdbcUri) {
+	public JdbcFetcher(String jdbcUri, Properties jdbcProps) {
 		this.jdbcUri = Objects.requireNonNull(jdbcUri);
+		this.jdbcProps = Objects.requireNonNull(jdbcProps);
 	}
 
 	@Override
 	public Snapshot fetch() throws Exception {
-		try (Connection conn = DriverManager.getConnection(jdbcUri)) {
+		try (Connection conn = DriverManager.getConnection(jdbcUri, jdbcProps)) {
 			PreparedStatement stmt = conn.prepareStatement(
 							/* 1 */ "SELECT CONF_KEY," +
 							/* 2 */ "       CONF_VALUE," +
