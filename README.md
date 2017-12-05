@@ -6,7 +6,7 @@ mvn clean package
 ```
 
 The shaded artifact including all necessary dependencies
-gets stored under `target/config-backup.jar`.
+gets stored under `target/sec-config-backup.jar`.
 
 Usage
 =====
@@ -14,7 +14,7 @@ Usage
 Making a backup snapshot of the monitored environments:
 
 ```
-java -jar target/config-backup.jar application.conf
+java -jar target/sec-config-backup.jar application.conf
 ```
 
 Configuration
